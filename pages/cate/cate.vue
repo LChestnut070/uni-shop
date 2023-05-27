@@ -1,5 +1,9 @@
 <template>
 	<view>
+		<view class="search-box">
+			<my-search @click="gotoSearch"></my-search>
+		</view>
+		
 		<view class="scroll-container">
 			<!-- 左侧分类列表 -->
 			<scroll-view class="left-scroll-view" scroll-y="true" :style="{height: windowHeight+'px'}">
@@ -69,11 +73,17 @@
 				uni.navigateTo({
 					url:'/subpkg/goods_list/goods_list?cid='+item.cat_id
 				})
+			},
+			gotoSearch(){
+				uni.navigateTo({
+					url:'/subpkg/search/search'
+				})
 			}
 		},
 		onLoad(){
 			const sysInfo = uni.getSystemInfoSync()
-			this.windowHeight = sysInfo.windowHeight
+			// 扣除搜索高度
+			this.windowHeight = sysInfo.windowHeight-50
 			this.getCateList()
 			this.getCateItemList()
 		}
@@ -81,6 +91,11 @@
 </script>
 
 <style lang="scss">
+.search-box{
+	position: sticky;
+	top: 0;
+	z-index: 999;
+}
 .scroll-container{
 	display: flex;
 	.left-scroll-view{
