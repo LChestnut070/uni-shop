@@ -43,6 +43,10 @@
 </template>
 
 <script>
+	import {
+		mapMutations,
+		mapGetters
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -71,7 +75,14 @@
 			const goods_id = options.goods_id
 			this.getGoodsDetail(goods_id);
 		},
+		computed: {
+			// 把m_cart模块中的total计算属性映射到当前页面使用
+			...mapGetters('m_cart', ['total']),
+		},
 		methods: {
+			// 把 m_cart 模块中的 addToCart 方法映射到当前页面使用
+			...mapMutations('m_cart', ['addToCart']),
+
 			// 获取商品详情信息
 			async getGoodsDetail(goods_id) {
 				const {
@@ -95,12 +106,43 @@
 				})
 			},
 
+			// 左侧按钮点击事件
 			onClick(e) {
 				if (e.content.text === '购物车') {
 					uni.switchTab({
 						url: '/pages/cart/cart'
 					})
 				}
+			},
+
+			//右侧按钮点击事件
+			buttonClick(e) {
+				if (e.content.text === '加入购物车') {
+					const goods = {
+						goods_id: this.goods_info.goods_id,
+						goods_name: this.goods_info.goods_name,
+						goods_price: this.goods_info.goods_price,
+						goods_count: 1, //商品数量
+						goods_small_logo: this.goods_info.goods_small_logo,
+						goods_state: true //物品的勾选状态
+					}
+					this.addToCart(goods)
+				}
+			}
+		},
+		// 监听
+		watch: {
+			total: {
+				// handler用来定义侦听器的处理函数
+				handler(newValue) {
+					const findResult = this.options.find(x => x.text === '购物车')
+					// 如果找得到购物车按钮对象，那么将新值给按钮的info属性
+					if (findResult) {
+						findResult.info = newValue
+					}
+				},
+				// 是否在页面初次加载完毕后立即调用
+				immediate: true
 			}
 		}
 	}

@@ -33,6 +33,7 @@
 </template>
 
 <script>
+	import badgeMix from '@/mixins/tabbar-badge.js'
 	export default {
 		data() {
 			return {
@@ -80,6 +81,7 @@
 					url: '/subpkg/goods_list/goods_list?cid=' + item.cat_id
 				})
 			},
+			// 跳转搜索页面
 			gotoSearch() {
 				uni.navigateTo({
 					url: '/subpkg/search/search'
@@ -92,7 +94,8 @@
 			this.windowHeight = sysInfo.windowHeight - 50
 			this.getCateList()
 			this.getCateItemList()
-		}
+		},
+		mixins: [badgeMix]
 	}
 </script>
 
