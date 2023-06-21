@@ -76,7 +76,7 @@
 				}
 				// 请求失败--
 				else {
-					return uni.$showErr()
+					return uni.$showMsg()
 				}
 			},
 
@@ -119,7 +119,7 @@
 				}
 				// 请求失败--
 				else {
-					return uni.$showErr()
+					return uni.$showMsg()
 				}
 				// forEach循环处理地址
 				res.message.forEach(floor => {

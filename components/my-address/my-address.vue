@@ -2,7 +2,7 @@
 	<view>
 		<!-- 未选择地址时的地址栏 -->
 		<!-- 判断address是否为空对象 -->
-		<view class="address-choose-box" v-if="JSON.stringify(address)==='{}'">
+		<view class="address-choose-box" v-if="JSON.stringify(address)==='{}'||JSON.stringify(address)==='undefined'">
 			<button type="primary" size="mini" class="btnChooseAddress" @click="chooseAddress">请选择收货地址</button>
 		</view>
 
@@ -51,22 +51,12 @@
 			// 点击选择地址
 			async chooseAddress() {
 				// const res = await uni.chooseAddress().catch(err => err)
-				const that = this
 				const res = await uni.chooseAddress({
-					success(succRes) {
-						console.log('success', succRes);
+					success: (succRes) => {
 						if (succRes && succRes.errMsg === 'chooseAddress:ok') {
-							that.updateAddress(succRes)
+							this.updateAddress(succRes)
 						}
 					}
-
-					// fail(failRes) {
-					// 	console.log('fail', failRes);
-					// 	if (failRes && failRes.errMsg === 'chooseAddress:fail auth deny') {
-					// 		that.resAuth()
-					// 	}
-					// }
-
 				})
 			},
 
@@ -79,8 +69,7 @@
 			// 		cancelText: "取消",
 			// 	})
 			// }
-		}
-
+		},
 	}
 </script>
 

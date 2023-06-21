@@ -43,7 +43,14 @@
 			/* ios打包配置 */
 			"ios": {},
 			/* SDK配置 */
-			"sdkConfigs": {}
+			"sdkConfigs": {
+				"oauth": {
+					"weixin": {
+						// "appid": "wx3a53ae6c90a8879e",
+						// "appsecret": "49b89f58a05af4a7ca40e5851a691d10"
+					}
+				}
+			}
 		}
 	},
 	/* 快应用特有相关 */

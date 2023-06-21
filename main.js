@@ -9,7 +9,7 @@ import {
 } from "@escook/request-miniprogram"
 
 Vue.config.productionTip = false
-
+wx.$http = $http;
 uni.$http = $http;
 $http.baseUrl = 'https://api-hmugo-web.itheima.net'
 // 数据请求之前
@@ -17,17 +17,24 @@ $http.beforeRequest = function(options) {
 	uni.showLoading({
 		title: "数据加载中..."
 	})
+	// 如果请求接口中有my字段，则添加请求头身份认证
+	if (options.url.indexOf('/my/') !== -1) {
+		options.header = {
+			Authorization: store.state.m_user.token
+		}
+	}
+	// console.log(options);
 }
 // 数据请求之后
 $http.afterRequest = function() {
 	uni.hideLoading()
 }
 // 数据请求失败,挂载自定义方法
-uni.$showErr = function() {
+uni.$showMsg = function(title = '数据加载失败！', duration = 1500) {
 	uni.showToast({
-		title: '数据加载失败',
-		duracation: 1500,
-		icon: 'none'
+		title,
+		duration,
+		icon: 'none',
 	})
 }
 App.mpType = 'app'
